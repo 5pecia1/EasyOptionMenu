@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EasyOptionMenu {
     public static final int VISIBLE = 1;
-    public static final int INVOKABLE = 0;
+    public static final int NOT_ENABLE = 0;
     public static final int HIDDEN = -1;
 
     public static final int ALL_ENABLE = -1;
@@ -52,7 +52,7 @@ public class EasyOptionMenu {
                 isSuccess = false;
             } else if (mode  != ALL_ENABLE) {
                 switch (stateArray[mode]) {
-                    case INVOKABLE :
+                    case NOT_ENABLE :
                         isEnable = false;
                         break;
                     case HIDDEN :

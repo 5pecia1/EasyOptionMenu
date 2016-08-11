@@ -7,8 +7,8 @@ import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final int MODE_VISIABLE_1_INVOKABLE_3_4 = 0;
-    private static final int MODE_VISIABLE_3_INVOKABLE_1 = 1;
+    private static final int MODE_VISIBLE_1_NOT_ENABLE_3_4 = 0;
+    private static final int MODE_VISIBLE_3_NOT_ENABLE_1 = 1;
 
 
     private EasyOptionMenu easyOptionMenu = null;
@@ -28,14 +28,14 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.testButton2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                easyOptionMenu.setMode(MODE_VISIABLE_1_INVOKABLE_3_4);
+                easyOptionMenu.setMode(MODE_VISIBLE_1_NOT_ENABLE_3_4);
             }
         });
 
         findViewById(R.id.testButton3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                easyOptionMenu.setMode(MODE_VISIABLE_3_INVOKABLE_1);
+                easyOptionMenu.setMode(MODE_VISIBLE_3_NOT_ENABLE_1);
             }
         });
     }
@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         easyOptionMenu = new EasyOptionMenu(this,R.menu.main,menu);
 
         int visible = EasyOptionMenu.VISIBLE;
-        int invokable = EasyOptionMenu.INVOKABLE;
+        int notEnable = EasyOptionMenu.NOT_ENABLE;
         int hidden = EasyOptionMenu.HIDDEN;
 
-        easyOptionMenu.addMenuItem(R.id.test1, visible, invokable);
+        easyOptionMenu.addMenuItem(R.id.test1, visible, notEnable);
         easyOptionMenu.addMenuItem(R.id.test2, hidden, hidden);
-        easyOptionMenu.addMenuItem(R.id.test3, invokable, visible);
-        easyOptionMenu.addMenuItem(R.id.test4, invokable, hidden);
+        easyOptionMenu.addMenuItem(R.id.test3, notEnable, visible);
+        easyOptionMenu.addMenuItem(R.id.test4, notEnable, hidden);
 
         return super.onCreateOptionsMenu(menu);
     }
