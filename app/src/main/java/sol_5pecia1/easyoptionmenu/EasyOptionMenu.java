@@ -32,7 +32,7 @@ public class EasyOptionMenu {
         menuItemList = new ArrayList<>(menu.size());
     }
 
-    public void addMenu(int menuId, boolean... enableState){
+    public void addMenuItem(int menuId, boolean... enableState){
         MenuItem menuItem = menu.findItem(menuId);
 
         menuItemList.add(menuItem);
@@ -68,10 +68,6 @@ public class EasyOptionMenu {
 
     public List<MenuItem> getMenuList() {
         return menuItemList;
-    }
-
-    public MenuItem getMenuItme(int id) {
-        return menu.findItem(id);
     }
 
     public Menu getMenu() {
