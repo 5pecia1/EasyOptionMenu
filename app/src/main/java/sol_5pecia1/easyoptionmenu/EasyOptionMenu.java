@@ -12,13 +12,15 @@ import java.util.List;
  * Created by 5pecia1 on 2016-08-11.
  */
 public class EasyOptionMenu {
+    public static final int ALL_ENABLE = -1;
+
     private Activity activity;
     private int menuRes;
     private Menu menu;
 
     private LinkedHashMap<MenuItem, boolean[]> menuItemLinkedHashMap = null;
     private ArrayList<MenuItem> menuItemList = null;
-    private int mode = 0;
+    private int mode = -1;
 
     public EasyOptionMenu(Activity activity, int menuRes, Menu menu) {
         this.activity = activity;
@@ -30,7 +32,7 @@ public class EasyOptionMenu {
         menuItemList = new ArrayList<>(menu.size());
     }
 
-    public void addMenu(int menuId, boolean... enableState){ // 어노테이션 사용 처음 불리언 리스트랑 크기가 다르면 에러
+    public void addMenu(int menuId, boolean... enableState){
         MenuItem menuItem = menu.findItem(menuId);
 
         menuItemList.add(menuItem);
@@ -48,8 +50,12 @@ public class EasyOptionMenu {
             boolean[] enableArray = menuItemLinkedHashMap.get(menuItem);
             boolean isEnable = false;
 
-            if (enableArray.length < mode) {
+            if (enableArray  != null
+                    && enableArray.length < mode
+                    && mode < ALL_ENABLE) {
                 isSuccess = false;
+            } else if (ALL_ENABLE == mode) {
+                isEnable = true;
             } else {
                 isEnable = enableArray[mode];
             }
@@ -65,7 +71,7 @@ public class EasyOptionMenu {
     }
 
     public MenuItem getMenuItme(int id) {
-
+        return menu.findItem(id);
     }
 
     public Menu getMenu() {
