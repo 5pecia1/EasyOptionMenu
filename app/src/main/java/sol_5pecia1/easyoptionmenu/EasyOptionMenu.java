@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -12,14 +12,17 @@ import java.util.List;
  * Created by 5pecia1 on 2016-08-11.
  */
 public class EasyOptionMenu {
+    public static final int VISIBLE = 1;
+    public static final int INVOKABLE = 0;
+    public static final int HIDDEN = -1;
+
     public static final int ALL_ENABLE = -1;
 
     private Activity activity;
     private int menuRes;
     private Menu menu;
 
-    private LinkedHashMap<MenuItem, boolean[]> menuItemLinkedHashMap = null;
-    private ArrayList<MenuItem> menuItemList = null;
+    private LinkedHashMap<MenuItem, int[]> menuItemHashMap = null;
     private int mode = -1;
 
     public EasyOptionMenu(Activity activity, int menuRes, Menu menu) {
@@ -28,15 +31,13 @@ public class EasyOptionMenu {
         this.menu = menu;
 
         activity.getMenuInflater().inflate(menuRes,menu);
-        menuItemLinkedHashMap = new LinkedHashMap<>(menu.size());
-        menuItemList = new ArrayList<>(menu.size());
+        menuItemHashMap = new LinkedHashMap<>(menu.size());
     }
 
-    public void addMenuItem(int menuId, boolean... enableState){
+    public void addMenuItem(int menuId, int... itemState){
         MenuItem menuItem = menu.findItem(menuId);
 
-        menuItemList.add(menuItem);
-        menuItemLinkedHashMap.put(menuItem, enableState);
+        menuItemHashMap.put(menuItem, itemState);
     }
 
     public void setMode(int mode){
@@ -46,28 +47,41 @@ public class EasyOptionMenu {
     public boolean setMenuItemEnable(){
         boolean isSuccess = true;
 
-        for(MenuItem menuItem : menuItemList) {
-            boolean[] enableArray = menuItemLinkedHashMap.get(menuItem);
-            boolean isEnable = false;
 
-            if (enableArray  != null
-                    && enableArray.length < mode
-                    && mode < ALL_ENABLE) {
+        for(MenuItem menuItem : menuItemHashMap.keySet()) {
+            int[] stateArray = menuItemHashMap.get(menuItem);
+            boolean isEnable = true;
+            boolean isVisible = true;
+
+            if (stateArray == null
+                    || stateArray.length < mode
+                    || mode < ALL_ENABLE) {
                 isSuccess = false;
-            } else if (ALL_ENABLE == mode) {
-                isEnable = true;
-            } else {
-                isEnable = enableArray[mode];
+            } else if (mode  != ALL_ENABLE) {
+                switch (stateArray[mode]) {
+                    case INVOKABLE :
+                        isEnable = false;
+                        break;
+                    case HIDDEN :
+                        isVisible = false;
+                        break;
+                    case VISIBLE :
+                    default:
+                        break;
+                }
             }
 
             menuItem.setEnabled(isEnable);
+            menuItem.setVisible(isVisible);
         }
 
         return isSuccess;
     }
 
     public List<MenuItem> getMenuList() {
-        return menuItemList;
+        MenuItem[] array = (MenuItem[])menuItemHashMap.keySet().toArray();
+
+        return Arrays.asList(array);
     }
 
     public Menu getMenu() {
