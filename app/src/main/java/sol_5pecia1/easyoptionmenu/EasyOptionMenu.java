@@ -8,9 +8,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Created by 5pecia1 on 2016-08-11.
- */
 public class EasyOptionMenu {
     public static final int VISIBLE = 1;
     public static final int INVOKABLE = 0;
@@ -18,16 +15,12 @@ public class EasyOptionMenu {
 
     public static final int ALL_ENABLE = -1;
 
-    private Activity activity;
-    private int menuRes;
     private Menu menu;
 
     private LinkedHashMap<MenuItem, int[]> menuItemHashMap = null;
     private int mode = -1;
 
     public EasyOptionMenu(Activity activity, int menuRes, Menu menu) {
-        this.activity = activity;
-        this.menuRes = menuRes;
         this.menu = menu;
 
         activity.getMenuInflater().inflate(menuRes,menu);
