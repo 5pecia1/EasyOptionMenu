@@ -10,21 +10,22 @@ import java.util.List;
 
 public class EasyOptionMenu {
     public static final int VISIBLE = 1;
-    public static final int NOT_ENABLE = 0;
+    public static final int DISABLE = 0;
     public static final int HIDDEN = -1;
 
     public static final int ALL_ENABLE = -1;
 
     private Menu menu;
 
-    private LinkedHashMap<MenuItem, int[]> menuItemHashMap = null;
-    private int mode = -1;
+    private LinkedHashMap<MenuItem, int[]> menuItemHashMap;
+    private int mode = 0;
 
-    public EasyOptionMenu(Activity activity, int menuRes, Menu menu) {
+    public EasyOptionMenu(Activity activity, int menuRes, Menu menu, int firstMode) {
         this.menu = menu;
 
         activity.getMenuInflater().inflate(menuRes,menu);
-        menuItemHashMap = new LinkedHashMap<>(menu.size());
+        this.menuItemHashMap = new LinkedHashMap<>(menu.size());
+        this.mode = firstMode;
     }
 
     public void addMenuItem(int menuId, int... itemState){
@@ -33,11 +34,7 @@ public class EasyOptionMenu {
         menuItemHashMap.put(menuItem, itemState);
     }
 
-    public void setMode(int mode){
-        this.mode = mode;
-    }
-
-    public boolean setMenuItemEnable(){
+    public boolean setMenuItemState(){
         boolean isSuccess = true;
 
 
@@ -52,7 +49,7 @@ public class EasyOptionMenu {
                 isSuccess = false;
             } else if (mode  != ALL_ENABLE) {
                 switch (stateArray[mode]) {
-                    case NOT_ENABLE :
+                    case DISABLE:
                         isEnable = false;
                         break;
                     case HIDDEN :
@@ -79,5 +76,13 @@ public class EasyOptionMenu {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public void setMode(int mode){
+        this.mode = mode;
+    }
+
+    public int getMode() {
+        return mode;
     }
 }

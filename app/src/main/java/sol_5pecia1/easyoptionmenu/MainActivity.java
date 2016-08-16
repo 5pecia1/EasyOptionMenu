@@ -42,23 +42,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        easyOptionMenu = new EasyOptionMenu(this,R.menu.main,menu);
+        easyOptionMenu = new EasyOptionMenu(this, R.menu.main, menu, EasyOptionMenu.ALL_ENABLE);
 
-        int visible = EasyOptionMenu.VISIBLE;
-        int notEnable = EasyOptionMenu.NOT_ENABLE;
-        int hidden = EasyOptionMenu.HIDDEN;
+        int v = EasyOptionMenu.VISIBLE;
+        int n = EasyOptionMenu.DISABLE;
+        int h = EasyOptionMenu.HIDDEN;
 
-        easyOptionMenu.addMenuItem(R.id.test1, visible, notEnable);
-        easyOptionMenu.addMenuItem(R.id.test2, hidden, hidden);
-        easyOptionMenu.addMenuItem(R.id.test3, notEnable, visible);
-        easyOptionMenu.addMenuItem(R.id.test4, notEnable, hidden);
+        easyOptionMenu.addMenuItem(R.id.test1, v, n);
+        easyOptionMenu.addMenuItem(R.id.test2, h, h);
+        easyOptionMenu.addMenuItem(R.id.test3, n, v);
+        easyOptionMenu.addMenuItem(R.id.test4, n, h);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        easyOptionMenu.setMenuItemEnable();
+        easyOptionMenu.setMenuItemState();
 
         return super.onPrepareOptionsMenu(menu);
     }
