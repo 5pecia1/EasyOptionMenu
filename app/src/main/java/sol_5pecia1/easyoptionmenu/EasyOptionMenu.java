@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 public class EasyOptionMenu {
     public static final int VISIBLE = 1;
@@ -15,17 +13,20 @@ public class EasyOptionMenu {
 
     public static final int ALL_ENABLE = -1;
 
+    private Activity activity;
     private Menu menu;
 
     private LinkedHashMap<MenuItem, int[]> menuItemHashMap;
-    private int mode = 0;
 
-    public EasyOptionMenu(Activity activity, int menuRes, Menu menu, int firstMode) {
+    public EasyOptionMenu(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void setMenu(int menuRes, Menu menu) {
         this.menu = menu;
 
         activity.getMenuInflater().inflate(menuRes,menu);
         this.menuItemHashMap = new LinkedHashMap<>(menu.size());
-        this.mode = firstMode;
     }
 
     public void addMenuItem(int menuId, int... itemState){
@@ -34,7 +35,29 @@ public class EasyOptionMenu {
         menuItemHashMap.put(menuItem, itemState);
     }
 
-    public boolean setMenuItemState(){
+//    /**
+//     *
+//     * @param menuId
+//     * @param itemState
+//     * @param otherItemState
+//     * @return mode
+//     */
+//    public int setNextModeOnceItemState(int menuId, int itemState, int otherItemState) {
+//
+//    }
+//
+//    /**
+//     * default state visible
+//     *
+//     * @param menuId
+//     * @param itemState
+//     * @return mode
+//     */
+//    public int setNextModeAllItemState(int menuId, int... itemState) {
+//
+//    }
+
+    public boolean setMenuItemState(int mode){
         boolean isSuccess = true;
 
 
@@ -56,7 +79,9 @@ public class EasyOptionMenu {
                         isVisible = false;
                         break;
                     case VISIBLE :
+                        break;
                     default:
+                        isSuccess = false;
                         break;
                 }
             }
@@ -66,23 +91,5 @@ public class EasyOptionMenu {
         }
 
         return isSuccess;
-    }
-
-    public List<MenuItem> getMenuList() {
-        MenuItem[] array = (MenuItem[])menuItemHashMap.keySet().toArray();
-
-        return Arrays.asList(array);
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMode(int mode){
-        this.mode = mode;
-    }
-
-    public int getMode() {
-        return mode;
     }
 }

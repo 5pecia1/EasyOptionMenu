@@ -13,36 +13,40 @@ public class MainActivity extends AppCompatActivity {
 
     private EasyOptionMenu easyOptionMenu = null;
 
+    private int mode = EasyOptionMenu.ALL_ENABLE;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        easyOptionMenu = new EasyOptionMenu(this);
+
         findViewById(R.id.testButton1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                easyOptionMenu.setMode(EasyOptionMenu.ALL_ENABLE);
+                mode = EasyOptionMenu.ALL_ENABLE;
             }
         });
 
         findViewById(R.id.testButton2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                easyOptionMenu.setMode(MODE_VISIBLE_1_NOT_ENABLE_3_4);
+                mode = MODE_VISIBLE_1_NOT_ENABLE_3_4;
             }
         });
 
         findViewById(R.id.testButton3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                easyOptionMenu.setMode(MODE_VISIBLE_3_NOT_ENABLE_1);
+                mode = MODE_VISIBLE_3_NOT_ENABLE_1;
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        easyOptionMenu = new EasyOptionMenu(this, R.menu.main, menu, EasyOptionMenu.ALL_ENABLE);
+        easyOptionMenu.setMenu(R.menu.main, menu);
 
         int v = EasyOptionMenu.VISIBLE;
         int n = EasyOptionMenu.DISABLE;
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        easyOptionMenu.setMenuItemState();
+        easyOptionMenu.setMenuItemState(mode);
 
         return super.onPrepareOptionsMenu(menu);
     }
