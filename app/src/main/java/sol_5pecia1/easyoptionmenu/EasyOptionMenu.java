@@ -17,6 +17,7 @@ public class EasyOptionMenu {
     private Menu menu;
 
     private LinkedHashMap<MenuItem, int[]> menuItemHashMap;
+    private int minStateArrayLength = 0;
 
     public EasyOptionMenu(Activity activity) {
         this.activity = activity;
@@ -32,30 +33,38 @@ public class EasyOptionMenu {
     public void addMenuItem(int menuId, int... itemState){
         MenuItem menuItem = menu.findItem(menuId);
 
+        if (itemState.length > minStateArrayLength) {
+            minStateArrayLength = itemState.length;
+        }
+
         menuItemHashMap.put(menuItem, itemState);
     }
 
-//    /**
-//     *
-//     * @param menuId
-//     * @param itemState
-//     * @param otherItemState
-//     * @return mode
-//     */
-//    public int setNextModeOnceItemState(int menuId, int itemState, int otherItemState) {
-//
-//    }
-//
-//    /**
-//     * default state visible
-//     *
-//     * @param menuId
-//     * @param itemState
-//     * @return mode
-//     */
-//    public int setNextModeAllItemState(int menuId, int... itemState) {
-//
-//    }
+    /**
+     *
+     * @param menuId
+     * @param itemState
+     * @param otherItemState
+     * @return mode
+     */
+    public int addNextModeOnceItemState(int menuId, int itemState, int otherItemState) {
+        int nextStateArrayLength = minStateArrayLength + 1;
+
+        for (MenuItem menuItem : menuItemHashMap.keySet()) {
+            int[] stateArray = new int[nextStateArrayLength];
+
+            System.arraycopy(menuItemHashMap.get(menuItem), 0, stateArray, 0, minStateArrayLength);
+            if (menuItem.getItemId() == menuId) {
+                stateArray[minStateArrayLength] = itemState;
+            } else {
+                stateArray[minStateArrayLength] = otherItemState;
+            }
+            menuItemHashMap.put(menuItem, stateArray);
+        }
+
+        minStateArrayLength += 1;
+        return minStateArrayLength;
+    }
 
     public boolean setMenuItemState(int mode){
         boolean isSuccess = true;

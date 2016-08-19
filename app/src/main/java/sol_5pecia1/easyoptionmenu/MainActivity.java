@@ -7,13 +7,14 @@ import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final int MODE_VISIBLE_1_NOT_ENABLE_3_4 = 0;
-    private static final int MODE_VISIBLE_3_NOT_ENABLE_1 = 1;
+    private static final int MODE_VISIBLE_1_DISABLE_3_4 = 0;
+    private static final int MODE_VISIBLE_3_DISABLE_1 = 1;
+    private static final int MODE_VISIBLE_2_DISABLE_1_3_4 = 2;
 
 
     private EasyOptionMenu easyOptionMenu = null;
 
-    private int mode = EasyOptionMenu.ALL_ENABLE;
+    private int mode = MODE_VISIBLE_2_DISABLE_1_3_4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.testButton2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mode = MODE_VISIBLE_1_NOT_ENABLE_3_4;
+                mode = MODE_VISIBLE_1_DISABLE_3_4;
             }
         });
 
         findViewById(R.id.testButton3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mode = MODE_VISIBLE_3_NOT_ENABLE_1;
+                mode = MODE_VISIBLE_3_DISABLE_1;
             }
         });
     }
@@ -49,13 +50,14 @@ public class MainActivity extends AppCompatActivity {
         easyOptionMenu.setMenu(R.menu.main, menu);
 
         int v = EasyOptionMenu.VISIBLE;
-        int n = EasyOptionMenu.DISABLE;
+        int d = EasyOptionMenu.DISABLE;
         int h = EasyOptionMenu.HIDDEN;
 
-        easyOptionMenu.addMenuItem(R.id.test1, v, n);
+        easyOptionMenu.addMenuItem(R.id.test1, v, d);
         easyOptionMenu.addMenuItem(R.id.test2, h, h);
-        easyOptionMenu.addMenuItem(R.id.test3, n, v);
-        easyOptionMenu.addMenuItem(R.id.test4, n, h);
+        easyOptionMenu.addMenuItem(R.id.test3, d, v);
+        easyOptionMenu.addMenuItem(R.id.test4, d, h);
+        easyOptionMenu.addNextModeOnceItemState(R.id.test2, v, d);
 
         return super.onCreateOptionsMenu(menu);
     }
